@@ -17,13 +17,53 @@
             mode: 'lines',
             type: 'scatter'
         };
+        let trace2 = {
+            x2: [],
+            y2: [],
+            mode: 'lines',
+            type: 'scatter'
+        };
+        let trace3 = {
+            x3: [],
+            y3: [],
+            mode: 'lines',
+            type: 'scatter'
+        };
+        let trace4 = {
+            x4: [],
+            y4: [],
+            mode: 'lines',
+            type: 'scatter'
+        };
+        let trace5 = {
+            x5: [],
+            y5: [],
+            mode: 'lines',
+            type: 'scatter'
+        };
+        let trace6 = {
+            x6: [],
+            y6: [],
+            mode: 'lines',
+            type: 'scatter'
+        };
 
         for (var i = 0; i < data.length; i++) {
             trace1.x.push(data[i].Date);
             trace1.y.push(data[i].AlcoholCPI);
+            trace2.x2.push(data[i].Date);
+            trace2.y2.push(data[i].AlcoholPPI);
+            trace3.x3.push(data[i].Date);
+            trace3.y3.push(data[i].MeatsCPI);
+            trace4.x4.push(data[i].Date);
+            trace4.y4.push(data[i].MeatsPPI);
+            trace3.x3.push(data[i].Date);
+            trace3.y3.push(data[i].DairyCPI);
+            trace4.x4.push(data[i].Date);
+            trace4.y4.push(data[i].DairyPPI);
         }
 
-        Plotly.newPlot('myDiv', [trace1]);
+        Plotly.newPlot('myDiv', [trace1, trace2, trace3, trace4, trace5, trace6]);
     });
 }
 
