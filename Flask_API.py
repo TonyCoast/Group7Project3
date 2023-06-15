@@ -2,6 +2,7 @@ import os
 import json
 import pandas as pd
 from flask import Flask, jsonify
+from flask_cors import CORS
 
 #################################################
 # Data Setup
@@ -35,6 +36,7 @@ for data_name, file_path in file_paths.items():
 #################################################
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 @app.route("/")
 def home():
@@ -95,3 +97,4 @@ def national_cpi():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
