@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id="myDiv"></div>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script> 
+    const url = 'http://127.0.0.1:5000/api/v1.0/National_CPI_PPI';
+    function charts() {
+    d3.json(url).then((data) => {
+        console.log(data);
+        let trace1 = {
+            x: [],
+            y: [],
+            mode: 'lines',
+            type: 'scatter'
+        };
+
+        for (var i = 0; i < data.length; i++) {
+            trace1.x.push(data[i].Date);
+            trace1.y.push(data[i].AlcoholCPI);
+        }
+
+        Plotly.newPlot('myDiv', [trace1]);
+    });
+}
+
+charts();
+        
+    </script>
+</body>
+</html>
