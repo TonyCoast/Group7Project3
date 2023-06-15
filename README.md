@@ -8,4 +8,4 @@ INFLATION IN THE US
   b) Dairy & related
   c) Meat, poultry, fish and eggs
 3. We are comparing the Consumer Price Index (CPI) as well as the Producer Price Index (PPI)
-4. 
+4. We are looking specifically at 3 cities: Chicago, Atlanta & Denver
