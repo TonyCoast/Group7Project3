@@ -3,6 +3,7 @@ import json
 import pandas as pd
 from flask import Flask, jsonify
 from flask_cors import CORS
+import numpy as np
 
 #################################################
 # Data Setup
@@ -29,14 +30,16 @@ file_paths = {
 json_data = {}
 for data_name, file_path in file_paths.items():
     df = pd.read_csv(file_path)
+    df.replace({np.nan: None, '': None}, inplace=True)  # Replace NaN and blank values with None
     json_data[data_name] = df.to_dict(orient='records')
+
 
 #################################################
 # Flask Setup
 #################################################
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app, resources={r"/api/*": {"origins": "*"}})  # Enable CORS for all routes
 
 @app.route("/")
 def home():
@@ -54,6 +57,8 @@ def home():
         f"/api/v1.0/Meats_Denver - CPI for meats in Denver<br/>"
         f"/api/v1.0/National_CPI_PPI - National CPI and PPI data<br/>"
     )
+
+# ... other routes ...
 
 @app.route("/api/v1.0/Alcohol_Atlanta")
 def alcohol_atlanta():
@@ -97,4 +102,3 @@ def national_cpi():
 
 if __name__ == "__main__":
     app.run(debug=True)
-

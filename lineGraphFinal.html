@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id="myDiv"></div>
+    <div>
+        <select id="dropdown">
+            <option value="Alcohol">Alcohol</option>
+            <option value="Meats">Meats</option>
+            <option value="Dairy">Dairy</option>
+        </select>
+    </div>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script> 
+    const url = 'http://127.0.0.1:5000/api/v1.0/National_CPI_PPI';
+    
+    function charts(category) {
+        d3.json(url).then((data) => {
+            console.log(data);
+
+            // Initialize traces for each category
+            let traces = {
+                AlcoholCPI: { x: [], y: [], name: 'Alcohol CPI' },
+                AlcoholPPI: { x: [], y: [], name: 'Alcohol PPI' },
+                MeatsCPI: { x: [], y: [], name: 'Meats CPI' },
+                MeatsPPI: { x: [], y: [], name: 'Meats PPI' },
+                DairyCPI: { x: [], y: [], name: 'Dairy CPI' },
+                DairyPPI: { x: [], y: [], name: 'Dairy PPI' }
+            };
+
+            // Get the selected category from the dropdown menu
+            const selectedCategory = category || document.getElementById('dropdown').value;
+
+            // Iterate through the data and populate the traces
+            for (var i = 0; i < data.length; i++) {
+                traces.AlcoholCPI.x.push(data[i].Date);
+                traces.AlcoholCPI.y.push(data[i].AlcoholCPI);
+                traces.AlcoholPPI.x.push(data[i].Date);
+                traces.AlcoholPPI.y.push(data[i].AlcoholPPI);
+                traces.MeatsCPI.x.push(data[i].Date);
+                traces.MeatsCPI.y.push(data[i].MeatsCPI);
+                traces.MeatsPPI.x.push(data[i].Date);
+                traces.MeatsPPI.y.push(data[i].MeatsPPI);
+                traces.DairyCPI.x.push(data[i].Date);
+                traces.DairyCPI.y.push(data[i].DairyCPI);
+                traces.DairyPPI.x.push(data[i].Date);
+                traces.DairyPPI.y.push(data[i].DairyPPI);
+            }
+
+            // Get the selected traces based on the category
+            const selectedTraces = [
+                traces[selectedCategory + 'CPI'],
+                traces[selectedCategory + 'PPI']
+            ];
+
+            // Create the plotly data array with the selected traces
+            let plotData = selectedTraces.map(trace => trace);
+
+            // Create the layout for the plot
+            let layout = {
+                title: selectedTraces.map(trace => trace.name).join(' and '),
+                xaxis: { title: 'Date' },
+                yaxis: { title: 'CPI/PPI' }
+            };
+
+            // Plot the graph
+            Plotly.newPlot('myDiv', plotData, layout);
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Call the charts function with the default category on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        charts('Alcohol');
+    });
+
+    // Event listener for the dropdown menu
+    document.getElementById('dropdown').addEventListener('change', function() {
+        const selectedCategory = this.value;
+        charts(selectedCategory);
+    });
+        
+    </script>
+</body>
+</html>
